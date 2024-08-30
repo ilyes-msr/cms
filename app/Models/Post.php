@@ -23,4 +23,9 @@ class Post extends Model
     {
         return $this->MorphMany(Comment::class, 'commentable')->whereNull('parent_id');
     }
+
+    public function scopeApproved($query)
+    {
+        return $query->whereApproved(1)->latest();
+    }
 }

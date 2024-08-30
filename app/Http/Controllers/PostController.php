@@ -21,7 +21,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = $this->post::with('user:id,name,profile_photo_path')->latest()->paginate(2);
+        $posts = $this->post::with('user:id,name,profile_photo_path')->approved()->paginate(10);
         // $posts = [];
         $title = "جميع المنشورات";
 
@@ -33,10 +33,7 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-        //
-    }
+    public function create() {}
 
     /**
      * Store a newly created resource in storage.
@@ -57,7 +54,10 @@ class PostController extends Controller
      */
     public function show($id)
     {
-        //
+        $post = $this->post->where(['id' => $id, 'approved' => 1])->firstOrFail();
+
+        // dd($post);
+        return view('posts.show', compact('post'));
     }
 
     /**

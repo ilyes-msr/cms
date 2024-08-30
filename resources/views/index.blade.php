@@ -29,8 +29,14 @@
                   <i class="fa-solid fa-comment"></i> <span class="text-secondary">{{$post->comments->count()}} تعليقات</span>
                 </div>
               </div>
-              <h4 class="h4 my-2"><a href="#">{{$post->title}}</a></h4>
+              <h4 class="h4 my-2">
+                <a href="{{route('post.show', $post->id)}}">
+                  {{$post->title}}
+                </a>
+              </h4>
+              
               <p class="card-text mb-2">{!! Str::limit($post->body, 200) !!}</p>
+            
             </div>
           </div>
         </div>
