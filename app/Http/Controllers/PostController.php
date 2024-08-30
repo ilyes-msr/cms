@@ -3,9 +3,17 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Post;
 
 class PostController extends Controller
 {
+
+    public $post;
+
+    public function __construct(Post $post)
+    {
+        $this->post = $post;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -13,7 +21,11 @@ class PostController extends Controller
      */
     public function index()
     {
-        //
+        $posts = $this->post::with('user:id,name,profile_photo_path')->latest()->paginate(2);
+        // $posts = [];
+        $title = "جميع المنشورات";
+
+        return view('index', compact('posts', 'title'));
     }
 
     /**
