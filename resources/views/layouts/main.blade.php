@@ -36,6 +36,9 @@
             {{-- @include('alerts.success') --}}
 
             @yield('content')
+
+            {{-- @include('partials.sidebar') --}}
+
           </div>
         </div>
       </main>
