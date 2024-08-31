@@ -1,7 +1,8 @@
 <?php
 
-use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PostController;
+use App\Http\Controllers\CommentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,6 +19,8 @@ Route::get('/', [PostController::class, 'index']);
 Route::get('/category/{category_id}/{category_slug}', [PostController::class, 'posts_by_category'])->name('posts_by_category');
 Route::resource('/post', PostController::class);
 Route::post('/search', [PostController::class, 'search'])->name('search');
+
+Route::post('/comments', [CommentController::class, 'store'])->name('comment.store');
 
 Route::middleware([
     'auth:sanctum',
