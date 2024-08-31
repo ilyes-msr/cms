@@ -59,9 +59,9 @@ class PostController extends Controller
         return redirect()->route('post.index')->with('success', 'تم انشاء المنشور بنجاح');
     }
 
-    public function show($id)
+    public function show($slug)
     {
-        $post = $this->post->where(['id' => $id, 'approved' => 1])->firstOrFail();
+        $post = $this->post->where(['slug' => $slug, 'approved' => 1])->firstOrFail();
 
         return view('posts.show', compact('post'));
     }

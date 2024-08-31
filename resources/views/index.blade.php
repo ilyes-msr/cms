@@ -30,7 +30,7 @@
                 </div>
               </div>
               <h4 class="h4 my-2">
-                <a href="{{route('post.show', $post->id)}}">
+                <a href="{{route('post.show', $post->slug)}}">
                   {{$post->title}}
                 </a>
               </h4>
