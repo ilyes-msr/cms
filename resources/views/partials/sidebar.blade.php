@@ -8,7 +8,7 @@
           </li>
           @foreach ($categories as $category)
               <li class="nav-item">
-                <a href="#" class="nav-link text-dark">{{$category->title}} {{$category->posts->where('approved', 1)->count()}}</a>
+                <a href="{{route('posts_by_category', [$category->id, $category->slug])}}" class="nav-link text-dark">{{$category->title}} {{$category->posts->where('approved', 1)->count()}}</a>
               </li>
           @endforeach
         </ul>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StorePostRequest;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Models\Post;
 use Illuminate\Auth\Events\Validated;
@@ -23,6 +24,19 @@ class PostController extends Controller
         $posts = $this->post::with('user:id,name,profile_photo_path')->approved()->paginate(10);
 
         $title = "جميع المنشورات";
+
+        return view('index', compact('posts', 'title'));
+    }
+
+    public function posts_by_category($category_id)
+    {
+        $posts = $this->post::with('user:id,name,profile_photo_path')->where('category_id', $category_id)->approved()->paginate(10);
+
+        $category = Category::findOrFail($category_id)->title;
+
+        // $category = $posts[0]?->category->title;
+
+        $title = "منشورات الصنف: " . $category;
 
         return view('index', compact('posts', 'title'));
     }

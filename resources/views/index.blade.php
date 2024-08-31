@@ -23,7 +23,7 @@
                   <i class="far fa-clock"></i> <span class="text-secondary">{{$post->created_at->diffForHumans()}}</span>
                 </div>
                 <div class="col-3">
-                  <i class="fa-solid fa-align-justify"> <span class="text-secondary">{{$post->category->title}}</span></i>
+                  <i class="fa-solid fa-align-justify"> <a class="text-secondary" href="{{route('posts_by_category', [$post->category->id, $post->category->slug])}}">{{$post->category->title}}</a></i>
                 </div>
                 <div class="col-3">
                   <i class="fa-solid fa-comment"></i> <span class="text-secondary">{{$post->comments->count()}} تعليقات</span>
