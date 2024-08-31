@@ -31,13 +31,13 @@
         <ul class="navbar-nav mx-auto">
             @auth
                 <li class="nav-item">
-                    <a class="nav-link" href="#"><i class="fa fa-plus fa-fw"></i>موضوع جديد</a>
+                    <a class="nav-link" href="{{route('post.create')}}"><i class="fa fa-plus fa-fw"></i>موضوع جديد</a>
                 </li>
             @endauth
         
             <!-- Search Box -->
             <li>
-                <form class="d-flex" method="post" action="#">
+                <form class="d-flex" method="post" action="{{route('search')}}">
                     @csrf
                     <input class="form-control ms-2" name="keyword" type="search" placeholder="ابحث عن منشور..." aria-label="Search">
                     <button class="btn btn-outline-light" type="submit">ابحث</button>

@@ -21,6 +21,15 @@
       font-variation-settings: "slnt" 0;
       background-color: #f0f0f0;
     }
+    footer {
+      position: sticky;
+      bottom: 0 ;
+      width: 100%;
+      height: 40px;
+      line-height: 40px;
+      background-color: black;
+      color: white
+    }
   </style>
   @yield('style')
 
@@ -35,7 +44,7 @@
       <main class="py-4 mb-5">
         <div class="container">
           <div class="row">
-            {{-- @include('alerts.success') --}}
+            @include('alerts.success')
 
             @yield('content')
 

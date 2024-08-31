@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [PostController::class, 'index']);
 Route::resource('/post', PostController::class);
+Route::post('/search', [PostController::class, 'search'])->name('search');
 
 Route::middleware([
     'auth:sanctum',

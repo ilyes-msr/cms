@@ -179,5 +179,6 @@ return [
         'time'                  => 'الوقت',
         'available'             => 'مُتاح',
         'size'                  => 'الحجم',
+        'category_id'           => 'صنف المنشور'
     ],
 ];

@@ -1,6 +1,7 @@
 @extends('layouts.main')
 
 @section('style')
+
   <style>
     .post-img {
       text-align: justify;
@@ -32,8 +33,8 @@
         </div>
       </div>
 
-      @if(file_exists(public_path('/storage/images/' . $post->img_path)))
-        <img src="{{asset('/storage/images/' . $post->img_path)}}" alt="" class="mb-4 mx-auto post-img">
+      @if(file_exists(public_path('/storage/' . $post->img_path)))
+        <img src="{{asset('/storage/' . $post->img_path)}}" alt="" class="mb-4 mx-auto post-img">
       @endif
 
       <p class="lh-lg">{!! $post->body !!}</p>
@@ -41,3 +42,4 @@
   </div>
   @include('partials.sidebar')
 @endsection
+
