@@ -54,14 +54,13 @@
       @endauth  
 
       <h2 class="text-xl my-3">التعليقات</h2>
-      <ul class="list-group">
+      <ul class="list-group" id="comments">
         @include('comments.all', ['comments' => $comments, 'post_id' => $post->id])
       </ul>  
     </div>
   </div>
 
   @include('partials.sidebar')
-
 
 
   <div class="toast align-items-center text-bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true" id="liveToast" style="position: fixed; top: 10px; right: 10;">
