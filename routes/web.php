@@ -22,6 +22,8 @@ Route::post('/search', [PostController::class, 'search'])->name('search');
 
 Route::post('/comments', [CommentController::class, 'store'])->name('comment.store');
 
+Route::post('/comments/reply', [CommentController::class, 'storeReply'])->name('comment.store.reply');
+
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),

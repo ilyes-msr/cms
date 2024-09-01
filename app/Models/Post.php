@@ -21,7 +21,7 @@ class Post extends Model
 
     public function comments()
     {
-        return $this->MorphMany(Comment::class, 'commentable')->whereNull('parent_id');
+        return $this->MorphMany(Comment::class, 'commentable')->whereNull('parent_id')->where('approved', 1);
     }
 
     public function scopeApproved($query)

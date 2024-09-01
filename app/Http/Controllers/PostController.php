@@ -76,8 +76,9 @@ class PostController extends Controller
     public function show($slug)
     {
         $post = $this->post->where(['slug' => $slug, 'approved' => 1])->firstOrFail();
-
-        return view('posts.show', compact('post'));
+        // dd($post->comments);
+        $comments = $post->comments->sortByDesc('created_at');
+        return view('posts.show', compact('post', 'comments'));
     }
 
     public function edit($id) {}

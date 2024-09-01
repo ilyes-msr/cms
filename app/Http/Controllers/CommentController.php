@@ -8,6 +8,12 @@ use Illuminate\Support\Facades\Validator;
 
 class CommentController extends Controller
 {
+    public $comment;
+
+    public function __construct(Comment $comment)
+    {
+        $this->comment = $comment;
+    }
 
     public function index() {}
 
@@ -41,7 +47,8 @@ class CommentController extends Controller
             'body' => $request->input('body'),
             'post_id' => $request->input('post_id'),
             'user_id' => auth()->id(),
-
+            'commentable_type' => 'App\Models\Post',
+            'commentable_id' => $request->input('post_id')
             // Optionally add 'user_id' if you want to link the comment to a user
         ]);
 
@@ -49,13 +56,27 @@ class CommentController extends Controller
         return response()->json(['success' => true, 'comment' => $comment], 201);
     }
 
+    public function storeReply(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'reply' => 'required',
+            'post_id' => 'required|exists:posts,id',
+            'comment_id' => 'required|exists:comments,id'
+        ]);
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+        $reply = Comment::create([
+            'body' => $request->input('reply'),
+            'post_id' => $request->input('post_id'),
+            'user_id' => auth()->id(),
+            'parent_id' => $request->input('comment_id'),
+            'commentable_type' => 'App\Models\Comment',
+            'commentable_id' => $request->input('comment_id')
+        ]);
+        return response()->json(['success' => true, 'reply' => $reply], 201);
+    }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         //

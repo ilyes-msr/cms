@@ -107,12 +107,10 @@
             <div class="alert alert-danger mt-2">{{ $message }}</div>
           @enderror
         </div>
-
         <div class="row">
           <img src="" alt="" id="cover-image-thumb" class="col-2" width="100" height="100">
           <span class="input-name col-6"></span>
         </div>
-
         <button type="submit" class="btn btn-primary add-button">إضافة</button>
       </form>
     </div>

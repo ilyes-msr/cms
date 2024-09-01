@@ -7,6 +7,9 @@
       max-width: 600px;
       max-height: 600px;
     }
+    li {
+      list-style: none
+    }
   </style>  
 @endsection
 
@@ -36,50 +39,63 @@
     </div>
 
     <div class="py-3 my-3">
-      <h2 class="text-xl mb-3">التعليقات</h2>
-      <ul class="list-group">
-  
-        @forelse($post->comments as $comment)
-          
-          <li class="list-group-item d-flex justify-content-between align-items-end">
-  
-            <img src="{{asset('/storage/' . $comment->user->profile_photo_path)}}" alt="" style="border-radius: 50%; width: 50px; height: 50px; object-fit: cover">
-            <div class="ms-auto me-2">
-              <div class="fw-bold">{{$comment->user->name}}</div>
-              {{$comment->body}}
-            </div>
-          </li>
-        @empty
-        <li>
-          لا توجد تعليقات لحدّ الآن
-        </li>
-        @endforelse
-      </ul>
-  
       @auth
       <h2 class="my-3 text-lg font-bold">أضف تعليقا</h2>
       <form id="add-comment-form">
         <div class="mb-3">
-          <input type="text" class="form-control" id="body" name="body">
-          <div id="" class="form-text">يمكنك التعليق وسيظهر في الصفحة حال الموافقة عليه</div>
+          <textarea name="body" id="body" class="form-control" rows="3" placeholder="يمكنك كتابة تعليقك هنا"></textarea>
         </div>
         <input type="hidden" name="post_id" value="{{$post->id}}" id="post_id">
-        <button type="submit" class="btn btn-outline-secondary">إضافة</button>
+        <button type="submit" class="btn btn-outline-secondary">تعليق
+
+          <span class="spinner-border spinner-border-sm" aria-hidden="true" id="spinner" style="display: none"></span>
+        </button>
       </form>
       @endauth  
+
+      <h2 class="text-xl my-3">التعليقات</h2>
+      <ul class="list-group">
+        @include('comments.all', ['comments' => $comments, 'post_id' => $post->id])
+      </ul>  
     </div>
   </div>
+
   @include('partials.sidebar')
+
+
+
+  <div class="toast align-items-center text-bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true" id="liveToast" style="position: fixed; top: 10px; right: 10;">
+    <div class="d-flex">
+      <div class="toast-body">
+        تمّ إرسال التعليق بنجاح، وسيظهر عند الموافقة عليه
+      </div>
+      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+  </div>
+
+  <div class="toast align-items-center text-bg-danger border-0" role="alert" aria-live="assertive" aria-atomic="true" id="liveToastError" style="position: fixed; top: 10px; left: 10px;">
+    <div class="d-flex">
+      <div class="toast-body">
+        حدث خطأ ما.. تأكّد من البيانات المدخلة أو أعد المحاولة لاحقاً
+      </div>
+      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+  </div>
+
+
 @endsection
 
 @section('script')
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      
+    const spinner = document.querySelector('#spinner');
+    const comment = document.querySelector('#body');
     const form = document.getElementById('add-comment-form');
+    const replyForm = document.getElementById('add-reply-form');
 
     form.addEventListener('submit', async (event) => {
         event.preventDefault();
+        spinner.style.display = 'inline-block';  
 
         const formData = new FormData(form);
 
@@ -94,18 +110,109 @@
 
             if (response.ok) {
                 const data = await response.json();
-                console.log('Success:', data);
+                spinner.style.display = 'none';  
+                comment.value = '';
+                const toastLiveExample = document.getElementById('liveToast')
+                const toast = new bootstrap.Toast(toastLiveExample)
+                toast.show()
+                
+                // console.log('Success:', data);
                 // Optionally update the UI with the new comment
+
             } else {
                 const errorData = await response.json();
-                console.error('Error:', errorData.errors);
+                // console.error('Error:', errorData.errors);
+
+                spinner.style.display = 'none';  
+
+                const toastLiveExample = document.getElementById('liveToastError')
+                const toast = new bootstrap.Toast(toastLiveExample)
+                toast.show()
                 // Handle validation errors, e.g., display them on the form
             }
         } catch (error) {
-            console.error('Error:', error);
+            // console.error('Error:', error);
         }
     });
+
+
   });
 
   </script>
+
+  <script>
+    const submitReplyFormButtons = document.querySelectorAll('.submit-reply-form-button');
+    const replyButtons = document.querySelectorAll('.reply-button');
+
+    replyButtons.forEach(button => {
+      button.addEventListener('click', (event) => {
+        // console.log(event.target.parentElement.id)
+        const idParts = event.target.parentElement.id.split('-');
+        const buttonId = idParts.pop();
+        console.log(buttonId);
+        const replyFormTargeted = document.querySelector(`#add-reply-form-container-${buttonId}`);
+        replyFormTargeted.style.display = replyFormTargeted.style.display == "none" ? "block" : "none";
+      
+      })
+    })
+
+    submitReplyFormButtons.forEach(element => {
+      element.addEventListener('click', (e) => {
+        const parts = e.target.id.split('-');
+        const commentId = parts.pop();
+        const replyInput = document.querySelector(`#reply-to-${commentId}`);
+        const reply = document.querySelector(`#reply-to-${commentId}`).value;
+        const postId = document.querySelector(`#post-id-${commentId}`).value;
+
+        const replySpinner = document.querySelector(`#reply-spinner-${commentId}`);
+        replySpinner.style.display = "inline-block";
+  $.ajax({
+            url: '/comments/reply',
+            type: 'POST',
+            data: JSON.stringify({
+              "comment_id": commentId,
+              "post_id": postId,
+              "reply": reply
+            }),
+            contentType: 'application/json',
+            processData: false,
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            success: function(response) {
+              replySpinner.style.display = "none";
+
+                console.log('Success:', response);
+                // Optionally update the UI with the new comment
+                replyInput.value = "";
+                const toastLiveExample = document.getElementById('liveToast')
+                const toast = new bootstrap.Toast(toastLiveExample)
+                toast.show()
+
+            },
+            error: function(xhr) {
+              replySpinner.style.display = "none";
+
+              const toastLiveExample = document.getElementById('liveToastError')
+              const toast = new bootstrap.Toast(toastLiveExample)
+              toast.show()
+
+                if (xhr.status === 422) { // 422 Unprocessable Entity (validation error)
+                    const errors = xhr.responseJSON.errors;
+                    const errorDiv = $('#error-messages');
+                    errorDiv.empty(); // Clear previous errors
+                    $.each(errors, function(key, messages) {
+                        $.each(messages, function(index, message) {
+                            errorDiv.append('<p>' + message + '</p>');
+                        });
+                    });
+                } else {
+                    console.error('Error:', xhr.responseText);
+                }
+            }
+        });
+  });
+
+  })
+</script>
 @endsection
