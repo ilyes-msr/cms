@@ -46,6 +46,25 @@
         </ul>
 
         <ul class="navbar-nav mr-auto">
+            <div class="topbar" style="z-index: 1">
+                @auth
+<!-- Nav Item - Alerts -->
+<li class="nav-item dropdown no-arrow alert-dropdown mx-1" style="list-style: none">
+    <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button"
+        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <i class="fas fa-bell fa-fw fa-lg"></i>
+        <!-- Counter - Alerts -->
+        <span class="badge badge-danger badge-counter notif-count" data-count="0">0</span>
+    </a>
+    <!-- Dropdown - Alerts -->
+    <div class="dropdown-list dropdown-menu dropdown-menu-right text-right mt-2 mr-auto"
+        aria-labelledby="alertsDropdown">
+        <div class="alert-body">
+        </div>
+        <a class="dropdown-item text-center small text-gray-500" href="#">عرض جميع الإشعارات</a>
+    </div>
+</li>                @endauth
+            </div>
             @guest
                 <li class="nav-item my-auto">
                     <a class="nav-link" href="{{ route('login') }}">{{ __('تسجيل الدخول') }}</a>

@@ -2,11 +2,8 @@
 
 namespace App\Http\ViewComposers;
 
-use App\Repositories\UserRepository;
 use Illuminate\View\View;
 use App\Models\Comment;
-use App\Models\Post;
-use Faker\Core\Number;
 
 class CommentComposer
 {

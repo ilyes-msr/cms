@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\CommentNotification;
 use Illuminate\Http\Request;
 use App\Models\Comment;
+use App\Models\Post;
 use Illuminate\Support\Facades\Validator;
 
 class CommentController extends Controller
@@ -32,27 +34,28 @@ class CommentController extends Controller
      */
     public function store(Request $request)
     {
-        // Validate the incoming request data
         $validator = Validator::make($request->all(), [
             'body' => 'required',
-            'post_id' => 'required|exists:posts,id', // Assuming you have a posts table 
+            'post_id' => 'required|exists:posts,id',
         ]);
-
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
         }
-
-        // Create and save the comment
         $comment = Comment::create([
             'body' => $request->input('body'),
             'post_id' => $request->input('post_id'),
             'user_id' => auth()->id(),
             'commentable_type' => 'App\Models\Post',
             'commentable_id' => $request->input('post_id')
-            // Optionally add 'user_id' if you want to link the comment to a user
         ]);
-
-
+        $post = Post::find($request->input('post_id'));
+        $data = [
+            'post_title' => $post->title,
+            'post' => $post,
+            'user_name' => auth()->user()->name,
+            'user_image' => auth()->user()->profile_photo_url
+        ];
+        event(new CommentNotification($data));
         return response()->json(['success' => true, 'comment' => $comment], 201);
     }
 
