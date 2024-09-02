@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Comment;
 use App\Models\Post;
 use Illuminate\Support\Facades\Validator;
+use App\Models\Notification;
 
 class CommentController extends Controller
 {
@@ -49,13 +50,26 @@ class CommentController extends Controller
             'commentable_id' => $request->input('post_id')
         ]);
         $post = Post::find($request->input('post_id'));
-        $data = [
-            'post_title' => $post->title,
-            'post' => $post,
-            'user_name' => auth()->user()->name,
-            'user_image' => auth()->user()->profile_photo_url
-        ];
-        event(new CommentNotification($data));
+        if ($request->user()->id != $post->user_id) {
+            // create notif
+            $notification = new Notification();
+            $notification->user_id = $request->user()->id;
+            $notification->post_id = $post->id;
+            $notification->post_userId = $post->user_id;
+
+            // store notif
+            $notification->save();
+
+            // send notif
+            $data = [
+                'post_title' => $post->title,
+                'post' => $post,
+                'user_name' => auth()->user()->name,
+                'user_image' => auth()->user()->profile_photo_url
+            ];
+            event(new CommentNotification($data));
+        }
+
         return response()->json(['success' => true, 'comment' => $comment], 201);
     }
 

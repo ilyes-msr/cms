@@ -6,6 +6,8 @@
       text-align: justify;
       max-width: 600px;
       max-height: 600px;
+      margin-top: 20px;
+      border-radius: 5px
     }
     li {
       list-style: none

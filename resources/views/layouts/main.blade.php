@@ -84,36 +84,115 @@
       });
     </script>
 
-<script type="module">
-  @if(Auth::check())
-      var post_userId = {{Auth::user()->id}};
-      Echo.private(`real-notification.${post_userId}`)
-      .listen('CommentNotification', (data) => {
-          var notificationsWrapper = $('.alert-dropdown');
-          var notificationsToggle = notificationsWrapper.find('a[data-bs-toggle]');
-          var notificationsCountElem = notificationsToggle.find('span[data-count]');
-          var notificationsCount = parseInt(notificationsCountElem.text());
-          var notifications = notificationsWrapper.find('div.alert-body');
+    <script type="module">
+      @if(Auth::check())
+          var post_userId = {{Auth::user()->id}};
+          Echo.private(`real-notification.${post_userId}`)
+          .listen('CommentNotification', (data) => {
+            // console.log(data.post.slug);
+              var notificationsWrapper = $('.alert-dropdown');
+              var notificationsToggle = notificationsWrapper.find('a[data-bs-toggle]');
+              var notificationsCountElem = notificationsToggle.find('span[data-count]');
+              var notificationsCount = parseInt(notificationsCountElem.text());
+              var notifications = notificationsWrapper.find('div.alert-body');
 
-          var existingNotifications = notifications.html();
-          var newNotificationHtml = '<a class="dropdown-item d-flex align-items-center" href="#">\
-                                          <div class="ml-3">\
-                                              <div">\
-                                                  <img style="float:right" src='+data.user_image+' width="50px" class="rounded-full"/>\
-                                              </div>\
-                                          </div>\
-                                          <div>\
-                                              <div class="small text-gray-500">'+data.date+'</div>\
-                                              <span>'+data.user_name+' وضع تعليقًا على المنشور <b>'+data.post_title+'<b></span>\
-                                          </div>\
-                                      </a>';
-          notifications.html(newNotificationHtml + existingNotifications);
-          notificationsCount += 1;  
-          notificationsWrapper.find('.notif-count').text(notificationsCount);
-          notificationsWrapper.show();
-      });
-  @endif
-</script>
+              var post_slug = "{{ route('post.show', ':post_slug') }}";
+              post_slug = post_slug.replace(':post_slug', data.post.slug);
+
+              var existingNotifications = notifications.html();
+var newNotificationHtml = '<a class="dropdown-item d-flex align-items-center" href='+post_slug+'>\
+          <div class="ml-3">\
+              <div">\
+                  <img style="float:right; width:40px; height:40px; object-fit:cover" src='+data.user_image+' width="50px" class="rounded-full"/>\
+              </div>\
+          </div>\
+          <div>\
+              <div class="small text-gray-500">'+data.date+'</div>\
+              <span>'+data.user_name+' وضع تعليقًا على المنشور <b>'+data.post_title+'<b></span>\
+          </div>\
+      </a>';
+              notifications.html(newNotificationHtml + existingNotifications);
+              notificationsCount += 1;  
+              notificationsWrapper.find('.notif-count').text(notificationsCount);
+              notificationsWrapper.show();
+          });
+      @endif
+    </script>
+
+    <script>
+      const setNotificationsCountTo0 = () => {
+        const notificationsCount = document.querySelector('#notifications-count');
+        notificationsCount.setAttribute('data-count', 0);
+        notificationsCount.textContent = 0;
+      }
+      const getNotifications = () => {
+        const notificationsContainer = document.querySelector('#notifications-container');
+        $.ajax({
+          url: '/notifications',
+          type: 'POST',
+          data: JSON.stringify({
+            "user_id": {{auth()->id()}},
+          }),
+          contentType: 'application/json',
+          processData: false,
+          headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          },
+          success: function(response) {
+              setNotificationsCountTo0()
+              const parsedResponse = JSON.parse(response);
+              let notification;
+              let result = '';
+              parsedResponse.notifications.forEach(response => {
+                
+                let post_link = "{{ route('post.show', ':post_slug') }}";
+                post_link = post_link.replace(':post_slug', response.post_slug);
+
+                notification = `
+                <a class="dropdown-item d-flex align-items-center" href="${post_link}">
+                  <div class="ml-3">
+                    <div>
+                      <img style="float:right; width:40px; height:40px; object-fit:cover" src="${response.user_image}" width="50px" class="rounded-full">
+                    </div>
+                  </div>
+                  <div>
+                    <div class="small text-gray-500">${response.created_at}</div>
+                      <span>
+                        ${response.user_name} وضع تعليقًا على المنشور <b>${response.post_title}
+                        <b></b></b>
+                      </span>
+                      <b><b></b></b>
+                    </div>
+                    <b><b></b></b>
+                </a>
+                `;
+                result += notification;
+              });
+
+              notificationsContainer.innerHTML = result;
+
+          },
+          error: function(xhr) {
+
+              if (xhr.status === 422) { // 422 Unprocessable Entity (validation error)
+                  const errors = xhr.responseJSON.errors;
+                  const errorDiv = $('#error-messages');
+                  errorDiv.empty(); // Clear previous errors
+                  $.each(errors, function(key, messages) {
+                      $.each(messages, function(index, message) {
+                          errorDiv.append('<p>' + message + '</p>');
+                      });
+                  });
+              } else {
+                  console.error('Error:', xhr.responseText);
+              }
+          }
+        });
+      }
+
+      const alertBell = document.querySelector('#alertsDropdown');
+      alertBell.addEventListener('click', getNotifications);
+    </script>
 
     <script src="{!! asset('theme/js/sb-admin-2.min.js') !!}"></script>
     @yield('script')

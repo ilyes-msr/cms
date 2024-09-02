@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\NotificationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,6 +24,7 @@ Route::post('/search', [PostController::class, 'search'])->name('search');
 Route::post('/comments', [CommentController::class, 'store'])->name('comment.store');
 
 Route::post('/comments/reply', [CommentController::class, 'storeReply'])->name('comment.store.reply');
+Route::post('/notifications', [NotificationController::class, 'getNotifications']);
 
 Route::middleware([
     'auth:sanctum',

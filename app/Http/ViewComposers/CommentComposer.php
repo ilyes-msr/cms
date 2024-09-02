@@ -16,6 +16,6 @@ class CommentComposer
 
   public function compose(View $view)
   {
-    return $view->with('recent_comments', $this->comments::with('user', 'post:id')->take(8)->latest()->get());
+    return $view->with('recent_comments', $this->comments::with('user', 'post:id')->where('approved', 1)->take(8)->latest()->get());
   }
 }
