@@ -62,9 +62,10 @@
         <div class="alert-body" id="notifications-container">
 
         </div>
-        <a class="dropdown-item text-center small text-gray-500" href="#">عرض جميع الإشعارات</a>
+        <a class="dropdown-item text-center small text-gray-500" href="{{route('notifications.index')}}">عرض جميع الإشعارات</a>
     </div>
-</li>                @endauth
+    </li>     
+           @endauth
             </div>
             @guest
                 <li class="nav-item my-auto">
@@ -82,14 +83,16 @@
 
                     <div class="dropdown-menu dropdown-menu-left px-2 text-right mt-2">
                         <div class="pt-4 pb-1 border-t border-gray-200">
-                            <div class="flex items-center px-4">
-                                <a href="#">
-                                    <div class="font-medium text-base text-gray-800">{{ Auth::user()->name }}</div>
-                                </a>
-                            </div>
+
 
                             <div class="mt-3 space-y-1">
                                 <!-- Account Management -->
+
+                                <x-responsive-nav-link href="{{ route('profile', Auth::user()->id) }}" :active="request()->routeIs('profile')">
+                                    {{ Auth::user()->name }}
+                                </x-responsive-nav-link>
+
+
                                 <x-responsive-nav-link href="{{ route('profile.show') }}" :active="request()->routeIs('profile.show')">
                                     {{ __('الملف الشخصي') }}
                                 </x-responsive-nav-link>

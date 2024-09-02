@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,6 +26,9 @@ Route::post('/comments', [CommentController::class, 'store'])->name('comment.sto
 
 Route::post('/comments/reply', [CommentController::class, 'storeReply'])->name('comment.store.reply');
 Route::post('/notifications', [NotificationController::class, 'getNotifications']);
+Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
+Route::get('/user/{id}', [UserController::class, 'getPostsByUser'])->name('profile');
+Route::get('/user/{id}/comments', [UserController::class, 'getCommentsByUser'])->name('user_comments');
 
 Route::middleware([
     'auth:sanctum',

@@ -15,6 +15,12 @@ class NotificationController extends Controller
         $this->middleware('auth');
     }
 
+    public function index()
+    {
+        $notifications = Notification::where('post_userId', auth()->id())->with('post', 'user')->latest()->get();
+        return view('notifications', compact('notifications'));
+    }
+
     public function getNotifications(Request $request)
     {
         $user_id = $request->get('user_id');
