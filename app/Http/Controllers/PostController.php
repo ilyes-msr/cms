@@ -81,12 +81,44 @@ class PostController extends Controller
         return view('posts.show', compact('post', 'comments'));
     }
 
-    public function edit($id) {}
+    public function edit($id)
+    {
+        $post = Post::find($id);
+        $title = "تعديل المنشور";
+        $categories = Category::all();
+        return view('posts.edit', compact('post', 'title', 'categories'));
+    }
 
-    public function update(Request $request, $id) {}
+    public function update(Request $request, $slug)
+    {
+        $data = $this->validate($request, [
+            'title' => 'required',
+            'body' => 'required',
+        ]);
+
+        $data['slug'] = slugify($request->title);
+        $data['category_id'] = $request->category_id;
+
+        if ($request->hasFile('img_path')) {
+            $path = $request->file('img_path')->store('images/posts', 'public');
+        } else {
+            $path = Post::where('slug', $slug)->first()->img_path;
+        }
+
+        $data['category_id'] = $request->category_id;
+
+        $request->user()->posts()->where('slug', $slug)->update($data + ['img_path' => $path]);
+
+        return redirect(route('post.show', $data['slug']))->with('success', 'تم تعديل المنشور بنجاح');
+    }
 
 
-    public function destroy($id) {}
+    public function destroy($id)
+    {
+        $post = Post::find($id);
+        $post->delete();
+        return back()->with('success', 'تم الحذف بنجاح');
+    }
 
     public function search(Request $request)
     {

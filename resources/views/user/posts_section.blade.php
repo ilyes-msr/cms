@@ -7,21 +7,21 @@
                 <div class="row">
                     <div class="col-12">
                         @if (Auth::check())
-                            @can('delete-post', $post)
+                            {{-- @can('delete-post', $post) --}}
                                 <form method="POST" action="{{ route('post.destroy', $post->id) }}" onsubmit="return confirm('هل أنت متأكد أنك تريد حذف المنشور هذا؟')">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="float-left"><i class="far fa-trash-alt text-danger fa-lg"></i></button>
                                 </form>
-                            @endcan
+                            {{-- @endcan --}}
 
-                            @can('edit-post', $post)
+                            {{-- @can('edit-post', $post) --}}
                             <form method="GET" action="{{ route('post.edit', $post->id) }}">
                                 @csrf
                                 @method('PATCH')
                                 <button type="submit" class="float-left"><i class="far fa-edit text-success fa-lg ml-3"></i></button>
                             </form>
-                            @endcan
+                            {{-- @endcan --}}
 
                         @endif
                         <img style="float:right" src="{{ $post->user->profile_photo_url }}" width="50px" class="rounded-full"/>

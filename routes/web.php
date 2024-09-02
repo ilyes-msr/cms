@@ -23,6 +23,7 @@ Route::resource('/post', PostController::class);
 Route::post('/search', [PostController::class, 'search'])->name('search');
 
 Route::post('/comments', [CommentController::class, 'store'])->name('comment.store');
+Route::delete('/comments/{id}', [CommentController::class, 'destroy'])->name('comment.destroy');
 
 Route::post('/comments/reply', [CommentController::class, 'storeReply'])->name('comment.store.reply');
 Route::post('/notifications', [NotificationController::class, 'getNotifications']);
