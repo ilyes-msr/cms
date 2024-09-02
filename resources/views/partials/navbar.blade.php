@@ -54,7 +54,7 @@
         data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         <i class="fas fa-bell fa-fw fa-lg"></i>
         <!-- Counter - Alerts -->
-        <span class="badge badge-danger badge-counter notif-count" data-count="0" id="notifications-count">0</span>
+        <span class="badge badge-danger badge-counter notif-count" data-count="{{nb_alerts()}}" id="notifications-count">{{nb_alerts()}}</span>
     </a>
     <!-- Dropdown - Alerts -->
     <div class="dropdown-list dropdown-menu dropdown-menu-right text-right mt-2 mr-auto"

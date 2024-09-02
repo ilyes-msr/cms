@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Alert;
 use App\Models\Notification;
 use App\Models\Post;
 use App\Models\User;
@@ -32,6 +33,10 @@ class NotificationController extends Controller
 
             array_push($data, $single_notification);
         }
+
+        $alert = Alert::where('user_id', auth()->id())->first();
+        $alert->alert = 0;
+        $alert->save();
 
         return json_encode(['notifications' => $data]);
     }

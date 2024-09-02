@@ -21,3 +21,10 @@ if (!function_exists('slugify')) {
     return empty($text) ? 'n-a' : $text;
   }
 }
+
+if (!function_exists('nb_alerts')) {
+  function nb_alerts()
+  {
+    return App\Models\Alert::where('user_id', auth()->id())->first()->alert;
+  }
+}

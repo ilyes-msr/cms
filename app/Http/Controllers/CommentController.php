@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Events\CommentNotification;
+use App\Models\Alert;
 use Illuminate\Http\Request;
 use App\Models\Comment;
 use App\Models\Post;
@@ -68,6 +69,10 @@ class CommentController extends Controller
                 'user_image' => auth()->user()->profile_photo_url
             ];
             event(new CommentNotification($data));
+
+            $alert = Alert::where('user_id', $post->user_id)->first();
+            $alert->alert++;
+            $alert->save();
         }
 
         return response()->json(['success' => true, 'comment' => $comment], 201);
