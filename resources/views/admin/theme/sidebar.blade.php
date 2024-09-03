@@ -19,8 +19,8 @@
       </li>
 
       <!-- Nav Item - Pages Collapse Menu -->
-      <li class="nav-item #">
-        <a class="nav-link text-right" href="#">
+      <li class="nav-item {{request()->is('admin/category*') ? 'active' : ''}}">
+        <a class="nav-link text-right" href="{{route('category.index')}}">
         <i class="fas fa-book-open"></i>
           <span>التصنيفات</span>
         </a>

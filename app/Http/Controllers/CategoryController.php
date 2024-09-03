@@ -2,18 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public $category;
+
+    public function __construct(Category $category)
+    {
+        $this->category = $category;
+    }
+
     public function index()
     {
-        //
+        return view('admin.category')->with(['categories' => $this->category->all()]);
     }
 
     /**
@@ -34,7 +37,13 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'title' => 'required',
+        ]);
+
+        $this->category->create($request->all() + ['slug' => $request->title]);
+
+        return back()->with('success', "تم إضافة التصنيف بنجاح");
     }
 
     /**
@@ -79,6 +88,8 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $this->category->find($id)->delete();
+
+        return back()->with('success', "تم حذف التصنيف بنجاح");
     }
 }

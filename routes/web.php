@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\admin\DashController;
+use App\Http\Controllers\CategoryController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\CommentController;
@@ -34,6 +35,7 @@ Route::get('/user/{id}/comments', [UserController::class, 'getCommentsByUser'])-
 
 
 Route::get('admin/dashboard', [DashController::class, 'index'])->name('admin.dashboard');
+Route::resource('admin/category', CategoryController::class);
 
 Route::middleware([
     'auth:sanctum',
