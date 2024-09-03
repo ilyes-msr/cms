@@ -105,8 +105,6 @@ class PostController extends Controller
             $path = Post::where('slug', $slug)->first()->img_path;
         }
 
-        $data['category_id'] = $request->category_id;
-
         $request->user()->posts()->where('slug', $slug)->update($data + ['img_path' => $path]);
 
         return redirect(route('post.show', $data['slug']))->with('success', 'تم تعديل المنشور بنجاح');

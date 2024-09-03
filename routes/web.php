@@ -4,6 +4,7 @@ use App\Http\Controllers\admin\DashController;
 use App\Http\Controllers\CategoryController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\admin\PostController as AdminPostController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\UserController;
@@ -36,6 +37,7 @@ Route::get('/user/{id}/comments', [UserController::class, 'getCommentsByUser'])-
 
 Route::get('admin/dashboard', [DashController::class, 'index'])->name('admin.dashboard');
 Route::resource('admin/category', CategoryController::class);
+Route::resource('admin/posts', AdminPostController::class);
 
 Route::middleware([
     'auth:sanctum',
