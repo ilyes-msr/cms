@@ -34,13 +34,6 @@
         </a>
       </li>
 
-
-      <li class="nav-item {{request()->is('admin/category*') ? 'active' : ''}}">
-        <a class="nav-link text-right" href="{{route('category.index')}}">
-        <i class="fas fa-book-open"></i>
-          <span>التصنيفات</span>
-        </a>
-      </li>
       <!-- Nav Item - Pages Collapse Menu -->
       <li class="nav-item {{request()->is('admin/posts*') ? 'active' : ''}}">
         <a class="nav-link text-right" href="{{route('posts.index')}}">
@@ -50,8 +43,8 @@
       </li>
 
       <!-- Nav Item - Charts -->
-      <li class="nav-item">
-        <a class="nav-link text-right" href="#">
+      <li class="nav-item {{request()->is('admin/roles*') ? 'active' : ''}}">
+        <a class="nav-link text-right" href="{{route('roles.index')}}">
         <i class="fas fa-table"></i>
           <span>الأدوار</span></a>
       </li>
