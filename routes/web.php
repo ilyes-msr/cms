@@ -9,6 +9,7 @@ use App\Http\Controllers\admin\PostController as AdminPostController;
 use App\Http\Controllers\admin\RoleController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\PageController;
 use App\Http\Controllers\UserController;
 
 /*
@@ -45,7 +46,8 @@ Route::get('admin/permission', [PermissionsController::class, 'index'])->name('p
 Route::post('admin/permission', [PermissionsController::class, 'store'])->name('permissions');
 Route::get('permission/byRole', [RoleController::class, 'getbyRole'])->name('permission_byRole');
 
-
+Route::resource('admin/user', UserController::class);
+Route::resource('admin/pages', PageController::class);
 
 Route::middleware([
     'auth:sanctum',

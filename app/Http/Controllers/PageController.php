@@ -2,18 +2,22 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Page;
 use Illuminate\Http\Request;
 
 class PageController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public $page;
+
+    public function __construct(Page $page)
+    {
+        $this->page = $page;
+    }
+
     public function index()
     {
-        //
+        $pages = $this->page->all();
+        return view('admin.pages.index', compact('pages'));
     }
 
     /**
@@ -23,7 +27,7 @@ class PageController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.pages.create');
     }
 
     /**
@@ -34,7 +38,14 @@ class PageController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->validate([
+            'slug' => 'required|unique:pages,slug',
+            'title' => 'required',
+            'content' => 'required'
+        ]);
+
+        $this->page->create($data);
+        return redirect()->route('pages.index')->with('success', 'تمّ انشاء الصفحة بنجاح');
     }
 
     /**
@@ -43,9 +54,10 @@ class PageController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($slug)
     {
-        //
+        $page = $this->page->where('slug', $slug)->first();
+        return view('admin.pages.show', compact('page'));
     }
 
     /**
@@ -56,7 +68,8 @@ class PageController extends Controller
      */
     public function edit($id)
     {
-        //
+        $page = $this->page->find($id);
+        return view('admin.pages.edit', compact('page'));
     }
 
     /**
@@ -68,7 +81,15 @@ class PageController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $data = $request->validate([
+            'slug' => 'required|unique:pages,slug,' . $id,
+            'title' => 'required',
+            'content' => 'required'
+        ]);
+
+        $page = $this->page->findOrFail($id);
+        $page->update($data);
+        return redirect()->route('pages.index')->with('success', 'تمّ تحديث الصفحة بنجاح');
     }
 
     /**

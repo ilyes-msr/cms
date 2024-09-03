@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\View;
 use App\Http\ViewComposers\CategoryComposer;
 use App\Http\ViewComposers\CommentComposer;
 use App\Http\ViewComposers\RoleComposer;
+use App\Http\ViewComposers\PageComposer;
 use Illuminate\Pagination\Paginator;
 
 class AppServiceProvider extends ServiceProvider
@@ -31,6 +32,7 @@ class AppServiceProvider extends ServiceProvider
         view::composer(['partials.sidebar', 'lists.categories'], CategoryComposer::class);
         view::composer(['partials.sidebar'], CommentComposer::class);
         view::composer('lists.roles', RoleComposer::class);
+        view::composer('lists.pages', PageComposer::class);
         Paginator::useBootstrap();
     }
 }

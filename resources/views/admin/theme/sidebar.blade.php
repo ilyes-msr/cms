@@ -27,8 +27,8 @@
       </li>
 
       <!-- Nav Item - Utilities Collapse Menu -->
-      <li class="nav-item">
-        <a class="nav-link text-right" href="#">
+      <li class="nav-item {{request()->is('admin/user*') ? 'active' : ''}}">
+        <a class="nav-link text-right" href="{{route('user.index')}}">
           <i class="fas fa-users"></i>
           <span>المستخدمون</span>
         </a>
@@ -56,8 +56,8 @@
           <span>الصلاحيات</span></a>
       </li>
 
-      <li class="nav-item">
-        <a class="nav-link text-right" href="#">
+      <li class="nav-item {{request()->is('admin/pages*') ? 'active' : ''}}">
+        <a class="nav-link text-right" href="{{route('pages.index')}}">
         <i class="fas fa-file"></i>
           <span>الصفحات</span></a>
       </li>
