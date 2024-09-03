@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\admin\DashController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\CommentController;
@@ -30,6 +31,9 @@ Route::post('/notifications', [NotificationController::class, 'getNotifications'
 Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
 Route::get('/user/{id}', [UserController::class, 'getPostsByUser'])->name('profile');
 Route::get('/user/{id}/comments', [UserController::class, 'getCommentsByUser'])->name('user_comments');
+
+
+Route::get('admin/dashboard', [DashController::class, 'index'])->name('admin.dashboard');
 
 Route::middleware([
     'auth:sanctum',

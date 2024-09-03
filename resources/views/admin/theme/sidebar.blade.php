@@ -12,8 +12,8 @@
       <hr class="sidebar-divider my-0">
 
       <!-- Nav Item - Dashboard -->
-      <li class="nav-item">
-        <a class="nav-link text-right" href="#">
+      <li class="nav-item {{request()->is('admin/dashboard') ? 'active' : ''}}">
+        <a class="nav-link text-right" href="{{route('admin.dashboard')}}">
           <i class="fas fa-fw fa-tachometer-alt"></i>
           <span>الإحصائيات</span></a>
       </li>
