@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\admin\DashController;
+use App\Http\Controllers\admin\PermissionsController;
 use App\Http\Controllers\CategoryController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
@@ -40,6 +41,11 @@ Route::get('admin/dashboard', [DashController::class, 'index'])->name('admin.das
 Route::resource('admin/category', CategoryController::class);
 Route::resource('admin/posts', AdminPostController::class);
 Route::resource('admin/roles', RoleController::class);
+Route::get('admin/permission', [PermissionsController::class, 'index'])->name('permissions');
+Route::post('admin/permission', [PermissionsController::class, 'store'])->name('permissions');
+Route::get('permission/byRole', [RoleController::class, 'getbyRole'])->name('permission_byRole');
+
+
 
 Route::middleware([
     'auth:sanctum',

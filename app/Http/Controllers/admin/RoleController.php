@@ -94,4 +94,10 @@ class RoleController extends Controller
 
         return back()->with('success', "تم حذف الدور بنجاح");
     }
+
+    public function getbyRole(Request $data)
+    {
+        $permissions = $this->role::find($data->id)->permissions()->pluck('permission_id');
+        return $permissions;
+    }
 }

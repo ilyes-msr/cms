@@ -50,8 +50,8 @@
       </li>
 
       <!-- Nav Item - Tables -->
-      <li class="nav-item">
-        <a class="nav-link text-right" href="#">
+      <li class="nav-item {{request()->is('admin/permission*') ? 'active' : ''}}">
+        <a class="nav-link text-right" href="{{route('permissions')}}">
         <i class="fas fa-folder"></i>
           <span>الصلاحيات</span></a>
       </li>
