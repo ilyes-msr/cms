@@ -17,6 +17,7 @@ class PostController extends Controller
     {
         $this->post = $post;
         $this->middleware('auth')->except(['index', 'show', 'posts_by_category']);
+        $this->middleware('verified')->only('create');
     }
 
     public function index()
