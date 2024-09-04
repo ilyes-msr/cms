@@ -10,15 +10,12 @@
                 <a class="nav-link active" aria-current="page" href="{{ url('/') }}">الصفحة الرئيسية</a>
             </li>
             <li class="nav-item dropdown">
-             
-            <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     الصفحات
                 </a>
                 <ul class="dropdown-menu">
                     @include('lists.pages')
                 </ul>
-                </li>
             </li>
         </ul>
 
@@ -80,12 +77,16 @@
 
 
                             <div class="mt-3 space-y-1">
-                                <!-- Account Management -->
+
+                                @admin
+                                <x-responsive-nav-link href="{{ route('admin.dashboard') }}" :active="request()->routeIs('admin.dashboard')">
+                                    {{ __('لوحة الإدارة') }}
+                                </x-responsive-nav-link>                                
+                                @endadmin
 
                                 <x-responsive-nav-link href="{{ route('profile', Auth::user()->id) }}" :active="request()->routeIs('profile')">
                                     {{ Auth::user()->name }}
                                 </x-responsive-nav-link>
-
 
                                 <x-responsive-nav-link href="{{ route('profile.show') }}" :active="request()->routeIs('profile.show')">
                                     {{ __('الملف الشخصي') }}
@@ -97,10 +98,8 @@
                                     </x-responsive-nav-link>
                                 @endif
 
-                                <!-- Authentication -->
                                 <form method="POST" action="{{ route('logout') }}" x-data>
                                     @csrf
-
                                     <x-responsive-nav-link href="{{ route('logout') }}"
                                         onclick="event.preventDefault();
                                         this.closest('form').submit();">

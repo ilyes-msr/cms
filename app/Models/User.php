@@ -83,4 +83,15 @@ class User extends Authenticatable
     {
         return $this->hasOne(Alert::class);
     }
+
+    public function isAdmin()
+    {
+        return $this->role->id == 1;
+    }
+
+    public function hasAllow($permission)
+    {
+        $role = $this->role()->first();
+        return $role->permissions()->whereName($permission)->first() ? true : false;
+    }
 }

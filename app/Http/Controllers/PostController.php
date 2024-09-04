@@ -86,6 +86,9 @@ class PostController extends Controller
         $post = Post::find($id);
         $title = "تعديل المنشور";
         $categories = Category::all();
+
+        abort_unless(auth()->user()->can('edit-post', $post), 403);
+
         return view('posts.edit', compact('post', 'title', 'categories'));
     }
 
@@ -114,6 +117,9 @@ class PostController extends Controller
     public function destroy($id)
     {
         $post = Post::find($id);
+
+        abort_unless(auth()->user()->can('delete-post', $post), 403);
+
         $post->delete();
         return back()->with('success', 'تم الحذف بنجاح');
     }

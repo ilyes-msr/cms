@@ -9,13 +9,13 @@
                         <img src="{{$comment->user->profile_photo_url}}" width="150px" class="rounded-full"/>
                     </div>
                     <div class="col-10">
-                        {{-- @can('delete-post', $comment) --}}
+                        @can('delete-post', $comment)
                             <form method="POST" action="{{ route('comment.destroy', $comment->id) }}" onsubmit="return confirm('هل أنت متأكد أنك تريد حذف التعليق هذا؟')">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="float-left"><i class="far fa-trash-alt text-danger fa-lg"></i></button>
                             </form>
-                        {{-- @endcan --}}
+                        @endcan
                     
                         <p class="mt-3 mb-2"><strong>{{$comment->user->name}}</strong></p> 
                         <i class="far fa-clock"></i> <span class="comment_date text-secondary">{{$comment->created_at->diffForHumans()}}</span>

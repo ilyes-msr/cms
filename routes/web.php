@@ -37,17 +37,21 @@ Route::get('/notifications', [NotificationController::class, 'index'])->name('no
 Route::get('/user/{id}', [UserController::class, 'getPostsByUser'])->name('profile');
 Route::get('/user/{id}/comments', [UserController::class, 'getCommentsByUser'])->name('user_comments');
 
+Route::group(['prefix' => 'admin', 'middleware' => 'Admin'], function () {
+    Route::get('/dashboard', [DashController::class, 'index'])->name('admin.dashboard');
+    Route::resource('/category', CategoryController::class);
+    Route::resource('/posts', AdminPostController::class);
+    Route::resource('/roles', RoleController::class);
+    Route::get('/permission', [PermissionsController::class, 'index'])->name('permissions');
+    Route::post('/permission', [PermissionsController::class, 'store'])->name('permissions');
+    Route::resource('/user', UserController::class);
+    Route::resource('/pages', PageController::class);
+});
 
-Route::get('admin/dashboard', [DashController::class, 'index'])->name('admin.dashboard');
-Route::resource('admin/category', CategoryController::class);
-Route::resource('admin/posts', AdminPostController::class);
-Route::resource('admin/roles', RoleController::class);
-Route::get('admin/permission', [PermissionsController::class, 'index'])->name('permissions');
-Route::post('admin/permission', [PermissionsController::class, 'store'])->name('permissions');
-Route::get('permission/byRole', [RoleController::class, 'getbyRole'])->name('permission_byRole');
 
-Route::resource('admin/user', UserController::class);
-Route::resource('admin/pages', PageController::class);
+Route::get('permission/byRole', [RoleController::class, 'getbyRole'])->name('permission_byRole')->middleware('Admin');
+
+
 
 Route::middleware([
     'auth:sanctum',
