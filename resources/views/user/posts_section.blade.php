@@ -24,7 +24,7 @@
                             @endcan
 
                         @endif
-                        <img style="float:right" src="{{ $post->user->profile_photo_url }}" width="50px" class="rounded-full"/>
+                        <img style="float:right; width: 50px; height: 50px;" src="{{ $post->user->profile_photo_url }}"/>
                         <p class="mt-2 me-3" style="display:inline-block;"><strong>{{$post->user->name}}</strong></p>   
                         <div class="row mt-2">
                             <div class="col-3">

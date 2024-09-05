@@ -4,7 +4,7 @@
 <div class="container text-muted">
     <div class="row mb-4">
         <div>
-            <img src="{{ $contents->profile_photo_url }}" width="150px" class="rounded-full mx-auto"/>
+            <img src="{{ $contents->profile_photo_url }}" style="width: 150px;height: 150px;" class="mx-auto"/>
             <h2 class="text-center mt-1">{{ $contents->name }}</h2>
         </div>
     </div>
