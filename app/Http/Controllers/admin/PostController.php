@@ -22,7 +22,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = $this->post::with('user', 'category')->get();
+        $posts = $this->post::with('user', 'category', 'comments')->get();
         return view('admin.posts.all', compact('posts'));
     }
 

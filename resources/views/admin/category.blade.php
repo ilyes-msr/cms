@@ -35,6 +35,7 @@
                         <th>الرقم</th>
                         <th>التصنيف</th>
                         <th>الإسم اللطيف</th>
+                        <th>عدد المنشورات</th>
                         <th>تاريخ الإنشاء</th>
                         <th>حذف</th>
                     </tr>
@@ -45,6 +46,7 @@
                         <td>{{ $category->id }}</td>
                         <td>{{ $category->title }}</td>
                         <td>{{ $category->slug }}</td>
+                        <td>{{ $category->posts->count() }}</td>
                         <td>{{ $category->created_at }}</td>
                         <td>
                         <form method="post" action="{{ route('category.destroy', $category->id) }}">

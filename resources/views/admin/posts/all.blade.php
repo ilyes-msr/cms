@@ -20,6 +20,7 @@
                                 <th>الإسم اللطيف</th>
                                 <th>المحتوى</th>
                                 <th>الكاتب</th>
+                                <th>التعليقات</th>
                                 <th>نشر</th>
                                 <th>التصنيف</th>
                                 <th>تعديل</th>
@@ -34,6 +35,7 @@
                                     <td>{{ $post->slug }}</td>
                                     <td>{{ \Illuminate\Support\Str::limit($post->body,100) }}</td>
                                     <td>{{ $post->user->name }}</td>
+                                    <td>{{ $post->comments->count() }}</td>
                                     <td><input type="checkbox" value="{{ $post->approved }}" name="approved" {{ $post->approved ? 'checked' : '' }}></td>
                                     <td>{{ $post->category->title }}</td>
                                     <td>
