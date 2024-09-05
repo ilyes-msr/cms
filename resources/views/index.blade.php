@@ -16,7 +16,7 @@
         <div class="card-body">
           <div class="row">
             <div class="col-12">
-              <img src="{{$post->user->profile_photo_url}}" alt="" style="float: right" class="rounded-full" width="50px">
+              <img src="{{$post->user->profile_photo_url}}" alt="" style="float: right; border-radius: 50%; width: 50px; height: 50px; object-fit: cover">
               <p class="mt-2 me-3" style="display: inline-block"><strong>{{$post->user->name}}</strong></p>
               <div class="row mt-2">
                 <div class="col-3">

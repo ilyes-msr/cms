@@ -48,6 +48,8 @@ Route::group(['prefix' => 'admin', 'middleware' => 'Admin'], function () {
     Route::resource('/pages', PageController::class);
 });
 
+Route::get('/page/{slug}', [PageController::class, 'show'])->name('pages.show');
+
 
 Route::get('permission/byRole', [RoleController::class, 'getbyRole'])->name('permission_byRole')->middleware('Admin');
 

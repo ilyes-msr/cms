@@ -72,11 +72,11 @@
 
 @section('content')
   <div class="col-md-12">
-      <h2 class="h4 my-4">
+      <h2 class="h4 my-2">
           تعديل المنشور
       </h2>
   </div>
-      <form method="POST" action="{{route('posts.update', $post->id)}}" class="my-5" enctype="multipart/form-data" novalidate>
+      <form method="POST" action="{{route('posts.update', $post->id)}}" class="my-5 px-5" enctype="multipart/form-data" novalidate>
         @csrf
         @method('PATCH')
         <div class="mb-3">
@@ -86,16 +86,16 @@
             <div class="alert alert-danger mt-2">{{ $message }}</div>
           @enderror
         </div>
-
-        
+      
         <div class="form-row">
           <div class="col-lg-5 form-group">
               <label for="slug">الإسم اللطيف </label>
               <input type="text" class="form-control" name="slug" placeholder="" value="{{$post->slug}}">
           </div>
+
           <div class="col-lg-6 form-group">
-              <label for="approved">نشر الموضوع </label>
-              <input type="checkbox" class="" name="approved"  value="{{$post->approved}}" {{$post->approved ? 'checked' : ''}}>
+            <input type="checkbox" class="" name="approved" id="approved"  value="{{$post->approved}}" {{$post->approved ? 'checked' : ''}}>
+            <label for="approved">نشر الموضوع </label>
           </div>
       </div>
 
@@ -130,7 +130,7 @@
           <img src="{{asset('storage/' . $post->img_path)}}" alt="" id="cover-image-thumb" class="col-2" width="100" height="100">
           <span class="input-name col-6"></span>
         </div>
-        <button type="submit" class="btn btn-primary add-button">تعديل</button>
+        <button type="submit" class="btn btn-primary add-button mt-3">تعديل</button>
       </form>
     </div>
   </div>

@@ -108,7 +108,7 @@
           @enderror
         </div>
         <div class="row">
-          <img src="" alt="" id="cover-image-thumb" class="col-2" width="100" height="100">
+          <img src="" alt="" id="cover-image-thumb" class="col-2" width="100" height="100" style="display: none">
           <span class="input-name col-6"></span>
         </div>
         <button type="submit" class="btn btn-primary add-button">إضافة</button>
@@ -122,16 +122,23 @@
 @section('script')
 
   <script>
-            function readCoverImage(input) {
-            if (input.files && input.files[0]) {
-                var reader = new FileReader();
-                reader.onload = function (e) {
-                    document.querySelector('#cover-image-thumb').setAttribute('src', e.target.result);
-                };
-                
-                reader.readAsDataURL(input.files[0]);
+
+      function readCoverImage(input) {
+              const coverImageThumb = document.querySelector('#cover-image-thumb');
+
+              if (input.files && input.files[0]) {
+                coverImageThumb.style.display = 'inline';
+
+                  var reader = new FileReader();
+                  reader.onload = function (e) {
+                      coverImageThumb.setAttribute('src', e.target.result);
+                  };
+                  
+                  reader.readAsDataURL(input.files[0]);
+              } else {
+                coverImageThumb.style.display = 'none';
+              }
             }
-        }
 
   </script>
   <script type="module">

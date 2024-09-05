@@ -16,7 +16,7 @@ class PostController extends Controller
     public function __construct(Post $post)
     {
         $this->post = $post;
-        $this->middleware('auth')->except(['index', 'show', 'posts_by_category']);
+        $this->middleware('auth')->except(['index', 'show', 'posts_by_category', 'search']);
         $this->middleware('verified')->only('create');
     }
 

@@ -57,7 +57,12 @@ class PageController extends Controller
     public function show($slug)
     {
         $page = $this->page->where('slug', $slug)->first();
-        return view('admin.pages.show', compact('page'));
+
+        if ($page) {
+            return view('admin.pages.show', compact('page'));
+        } else {
+            abort(404);
+        }
     }
 
     /**

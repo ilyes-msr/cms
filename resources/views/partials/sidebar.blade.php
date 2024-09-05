@@ -25,6 +25,7 @@
                         <img style="float:right; width: 40px; height: 40px; object-fit: cover" src="{{$comment->user->profile_photo_url}}" class="rounded-full"/>
                         <span class="mt-1 me-1 d-inline-block"><strong>{{$comment->user->name}}</strong></span> 
                         <span>{{\Illuminate\Support\Str::limit($comment->body, 60) }}</span>
+                        <span class="text-muted text-sm">{{$comment->created_at->diffForHumans()}}</span>
                     </a>
                 </li>
             @endforeach

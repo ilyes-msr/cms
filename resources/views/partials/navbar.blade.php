@@ -26,7 +26,6 @@
                 </li>
             @endauth
         
-            <!-- Search Box -->
             <li>
                 <form class="d-flex" method="post" action="{{route('search')}}">
                     @csrf

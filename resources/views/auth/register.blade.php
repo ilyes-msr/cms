@@ -51,7 +51,7 @@
                     {{ __('site.text_login') }}
                 </a>
 
-                <x-button class="ml-4">
+                <x-button class="mr-4">
                     {{ __('site.register') }}
                 </x-button>
             </div>
